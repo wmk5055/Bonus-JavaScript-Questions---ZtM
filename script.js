@@ -53,7 +53,7 @@ const answerQ2 = (arr,sum) => {
         return outputArr[0];
     }
     else{
-        outputArr = arr.filter(value => value <= sum).sort((a,b) => a-b);
+        outputArr = arr.filter(value => value < sum).sort((a,b) => a-b);
     }
 
     for (item of outputArr){
