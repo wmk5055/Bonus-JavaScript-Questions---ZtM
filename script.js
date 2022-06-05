@@ -69,12 +69,45 @@ const answerQ2 = (arr,sum) => {
 
 //Q3 - Convert hex to RGB or RGB to Hex
 
-// let hex = 'FF0000';
+let hex = 'FF0000';
 
 
-// const convertColor = (color) => {
-//     let startIndex = 0;
-//     let finalIndex = 1;
-//     number = parseInt(color.splice(startIndex,finalIndex),16);
-//     return number;
-// }
+const convertColor = (color) => {
+    let decType = false;
+    outputString = '';
+
+    const decTypeFunc = (colorString) => {
+        if (colorString.indexOf(',') != -1){
+            return true;
+        }else{
+            return false;
+        }
+    
+    }
+
+    const hexToRGB = (hexColor,conversionFlag) => {
+        let finalString = [];
+        let number = '';
+        if (conversionFlag){
+            let splitArr = [];
+            splitArr = hexColor.replaceAll('(','').replaceAll(')','').split(',');
+            for (item of splitArr){
+                number = (parseInt(item)).toString(16);
+                finalString = finalString.concat(number);
+            }
+            return `(${finalString.join('')})`
+        }else{
+            for (let startIndex = 0;startIndex < hexColor.length; startIndex=startIndex+2){
+                number = parseInt(hexColor[startIndex]+hexColor[startIndex+1],16);
+                finalString = finalString.concat(number);
+            }
+            return `(${finalString.join(',')})`
+        }  
+        
+    }
+
+    decType = decTypeFunc(color);
+    outputString = hexToRGB(color,decType);
+    return outputString;
+}
+
