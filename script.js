@@ -69,45 +69,45 @@ const answerQ2 = (arr,sum) => {
 
 //Q3 - Convert hex to RGB or RGB to Hex
 
-let hex = 'FF0000';
+let hex = '#FF0000';
+let RGB = 'RGB(255,0,0)';
 
 
 const convertColor = (color) => {
-    let decType = false;
+
     outputString = '';
+    color = color.trim();
 
-    const decTypeFunc = (colorString) => {
-        if (colorString.indexOf(',') != -1){
-            return true;
-        }else{
-            return false;
+    const hexToRGB = (colorString) => {
+        return parseInt(colorString.trim(),16);
+    }
+
+    const RGBToHex = (colorString) => {
+        if (colorString.trim() == 0) {
+            return '00';
         }
-    
+        return parseInt(colorString.trim()).toString(16);
     }
 
-    const hexToRGB = (hexColor,conversionFlag) => {
-        let finalString = [];
-        let number = '';
-        if (conversionFlag){
-            let splitArr = [];
-            splitArr = hexColor.replaceAll('(','').replaceAll(')','').split(',');
-            for (item of splitArr){
-                number = (parseInt(item)).toString(16);
-                finalString = finalString.concat(number);
-            }
-            return `(${finalString.join('')})`
-        }else{
-            for (let startIndex = 0;startIndex < hexColor.length; startIndex=startIndex+2){
-                number = parseInt(hexColor[startIndex]+hexColor[startIndex+1],16);
-                finalString = finalString.concat(number);
-            }
-            return `(${finalString.join(',')})`
-        }  
-        
+
+    if (color.indexOf('#') != -1){
+        let r = hexToRGB(color[1]+color[2]);
+        let g = hexToRGB(color[3]+color[4]);
+        let b = hexToRGB(color[5]+color[6]);
+
+        return `RGB(${r},${g},${b})`;
+
+    }else if(color.indexOf('RGB') != -1){
+        color = color.replaceAll('RGB','').replaceAll('(','').replaceAll(')','').split(',');
+        let r = RGBToHex(color[0])
+        let g =  RGBToHex(color[1])
+        let b = RGBToHex(color[2])
+            
+        return `#${r}${g}${b}`.toUpperCase();
+    }else{
+        return `Invalid color format. Please use Hex(#xxxxxx) or RGB (RGB(r,g,b)) format.`;
     }
 
-    decType = decTypeFunc(color);
-    outputString = hexToRGB(color,decType);
-    return outputString;
+
 }
 
